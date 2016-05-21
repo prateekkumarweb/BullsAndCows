@@ -3,112 +3,127 @@ package in.prateekkumar.android.bullsandcows;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BullsAndCowsGame {
 
-    public static final int COMPUTER_GUESSES = 0;
-    public static final int PLAYER_GUESSES = 1;
-
-    private int gameType;
-    private int[] mNumbers;
     private int[] mSecret;
     private List<int[]> mGuess;
     private boolean isGameOver;
 
-    public BullsAndCowsGame(int type) {
-        gameType = type;
+    public BullsAndCowsGame() {
         mGuess = new ArrayList<>();
-        mNumbers = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+        mSecret = new int[]{-1, -1, -1, -1};
         isGameOver = false;
-        if (type == COMPUTER_GUESSES) {
-            mSecret = new int[4];
-            for (int i = 0; i < 4; i++) {
-                mSecret[i] = random();
-                for (int j = 0; j < i; j++) {
-                    if (mSecret[i] == mSecret[j] || mSecret[i] >= 10 || mSecret[i] < 0) {
-                        i--;
-                        break;
-                    }
+        for (int i = 0; i < 4; i++) {
+            mSecret[i] = random();
+            for (int j = 0; j < i; j++) {
+                if (mSecret[i] == mSecret[j] || mSecret[i] >= 10 || mSecret[i] < 0) {
+                    i--;
+                    break;
                 }
             }
-            for (int i = 0; i < 4; i++) {
-                Log.v("Game", String.valueOf(mSecret[i]));
-            }
-        } else if (type == PLAYER_GUESSES) {
-            int[] initGuess = {0, 0, 0, 0, -1, -1};
-            for (int i = 0; i < 4; i++) {
-                initGuess[i] = random();
-                for (int j = 0; j < i; j++) {
-                    if (initGuess[i] == initGuess[j]) {
-                        i--;
-                        break;
-                    }
-                }
-            }
-            mGuess.add(initGuess);
+        }
+        for (int i = 0; i < 4; i++) {
+            Log.v("Game", String.valueOf(mSecret[i]));
         }
     }
 
-    public BullsAndCowsGame() {
-        this(COMPUTER_GUESSES);
-    }
-
-    public int[] guess(int ...guess) throws BullsAndCowsExceptions {
-        if (gameType == COMPUTER_GUESSES) {
-            if (isGameOver) throw new BullsAndCowsExceptions("Game already Over");
-            else if (mGuess.add(guess)) {
-                int[] bullsAndCows = computeBC(guess);
-                if (bullsAndCows[0] == mSecret.length) isGameOver = true;
-                return bullsAndCows;
-            } else throw new BullsAndCowsExceptions("Could not add guess.");
-        } else throw new BullsAndCowsExceptions("This method cannot be executed.");
-    }
-
-    private int[] computeBC(int[] guess) throws BullsAndCowsExceptions {
+    private static int[] computeBC(int[] n1, int[] n2) throws BullsAndCowsException {
         int bulls = 0, cows = 0;
-        if (guess.length != mSecret.length)
-            throw new BullsAndCowsExceptions("Guess should have " + Integer.toString(mSecret.length) + " integers.");
-        for (int i = 0; i < guess.length; i++) {
-            for (int j = 0; j < mSecret.length; j++) {
-                if (i == j && guess[i] == mSecret[j]) bulls++;
-                else if (guess[i] == mSecret[j]) cows++;
+        if (n1.length != n2.length)
+            throw new BullsAndCowsException("Guess should have " + Integer.toString(n2.length) + " integers.");
+        for (int i = 0; i < n1.length; i++) {
+            for (int j = 0; j < n2.length; j++) {
+                if (i == j && n1[i] == n2[j]) bulls++;
+                else if (n1[i] == n2[j]) cows++;
             }
         }
         return new int[]{bulls, cows};
     }
 
-    public String getGuessAt(int n) {
-        if (n < mGuess.size()) {
-            return String.valueOf(mGuess.get(n)[0]) + String.valueOf(mGuess.get(n)[1]) + String.valueOf(mGuess.get(n)[2]) + String.valueOf(mGuess.get(n)[3]);
-        } else return null;
+    private static int random(int start, int end) {
+        return start + (int) (Math.round((Math.random() * 1000000)) % (end - start));
     }
 
-    public String play(int bulls, int cows) throws BullsAndCowsExceptions {
-        if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4 || bulls + cows > 4) {
-            throw new BullsAndCowsExceptions("Inconsistant values of bulls and cows");
-        }
-        if (gameType == PLAYER_GUESSES) {
-            // TODO : Make the play function
-            int[] lastGuess = mGuess.get(mGuess.size() - 1);
-            lastGuess[4] = bulls;
-            lastGuess[5] = cows;
-            mGuess.set(mGuess.size() - 1, lastGuess);
-            return "Code";
-        } else throw new BullsAndCowsExceptions("This method cannot be executed.");
-    }
-
-    private int random(int start, int end) {
-        return start + (int) (Math.round((Math.random() * 10000)) % (end - start));
-    }
-
-    private int random() {
+    private static int random() {
         return random(0, 10);
     }
 
-    public class BullsAndCowsExceptions extends Exception {
-        public BullsAndCowsExceptions(String detailMessage) {
+    public int[] guess(int... guess) throws BullsAndCowsException {
+        if (isGameOver) throw new BullsAndCowsException("Game already Over");
+        else if (mGuess.add(guess)) {
+            int[] bullsAndCows = computeBC(guess);
+            if (bullsAndCows[0] == mSecret.length) isGameOver = true;
+            return bullsAndCows;
+        } else throw new BullsAndCowsException("Could not add guess.");
+    }
+
+    private int[] computeBC(int[] guess) throws BullsAndCowsException {
+        return computeBC(guess, mSecret);
+    }
+
+    public static class BullsAndCowsException extends Exception {
+        public BullsAndCowsException(String detailMessage) {
             super(new Throwable(detailMessage));
+        }
+    }
+
+    public static class Player {
+
+        private ArrayList<Integer> possibleValues;
+        private ArrayList<int[]> guessList;
+
+        public Player() {
+            possibleValues = new ArrayList<Integer>();
+            int[] guess = {-1, -1, -1, -1, -1, -1};
+            for (int i = 0; i < 4; i++) {
+                guess[i] = random();
+                for (int j = 0; j < i; j++) {
+                    if (guess[j] == guess[i]) {
+                        i--;
+                        break;
+                    }
+                }
+            }
+            guessList.add(guess);
+            for (int i1 = 0; i1 < 10; i1++) {
+                for (int i2 = 0; i2 < 10; i2++) {
+                    if (i1 == i2) continue;
+                    for (int i3 = 0; i3 < 10; i3++) {
+                        if (i1 == i3 || i2 == i3) continue;
+                        for (int i4 = 0; i4 < 10; i4++) {
+                            if (i1 == i4 || i2 == i4 || i3 == i4) continue;
+                            guessList.add(new int[]{i1, i2, i3, i4});
+                        }
+                    }
+                }
+            }
+        }
+
+        public String getGuessAt(int i) {
+            int[] guess = guessList.get(i);
+            return String.valueOf(guess[0]) + String.valueOf(guess[1]) + String.valueOf(guess[2]) + String.valueOf(guess[3]);
+        }
+
+        public String play(int bulls, int cows) throws BullsAndCowsException {
+            if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4 || bulls + cows > 4) {
+                int[] guess = guessList.get(guessList.size() - 1);
+                guess[4] = bulls;
+                guess[5] = cows;
+                guessList.set(guessList.size() - 1, guess);
+                for (int i = 0; i < guessList.size(); i++) {
+                    int[] bc = computeBC(Arrays.copyOfRange(guess, 0, 4), Arrays.copyOfRange(guessList.get(i), 0, 4));
+                    if (bc[0] != bulls || bc[1] != cows) {
+                        guessList.remove(i);
+                        i--;
+                    }
+                }
+                guessList.add(guess);
+                if (bulls == 4) return "DONE";
+                return String.valueOf(guess[0]) + String.valueOf(guess[1]) + String.valueOf(guess[2]) + String.valueOf(guess[3]);
+            } else throw new BullsAndCowsException("Inconsistent number of bulls or cows");
         }
     }
 }

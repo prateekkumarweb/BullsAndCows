@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class PlayActivity extends AppCompatActivity {
 
-    private BullsAndCowsGame bullsAndCowsGame;
+    private BullsAndCowsGame.Player bullsAndCowsGame;
     private MainActivity.GuessAdapter guessAdapter;
     private TextView codeView;
     private EditText bullsView, cowsView;
@@ -22,7 +22,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        bullsAndCowsGame = new BullsAndCowsGame(BullsAndCowsGame.PLAYER_GUESSES);
+        bullsAndCowsGame = new BullsAndCowsGame.Player();
         ArrayList<String> guesses = new ArrayList<>();
         guesses.add("CodeBC");
         guessAdapter = new MainActivity.GuessAdapter(this, guesses);
@@ -61,8 +61,12 @@ public class PlayActivity extends AppCompatActivity {
             bullsView.setText("");
             cowsView.setText("");
             bullsView.requestFocus();
-        } catch (BullsAndCowsGame.BullsAndCowsExceptions bullsAndCowsExceptions) {
-            bullsAndCowsExceptions.printStackTrace();
+            if (res.equals("DONE")) {
+                bullsView.setFocusable(false);
+                cowsView.setFocusable(false);
+            }
+        } catch (BullsAndCowsGame.BullsAndCowsException e) {
+            e.printStackTrace();
         }
     }
 }

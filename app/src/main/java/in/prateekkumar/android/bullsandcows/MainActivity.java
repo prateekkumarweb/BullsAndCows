@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 editTexts[i].setText("");
                 if (isGameOver) editTexts[i].setFocusable(false);
             }
-        } catch (BullsAndCowsGame.BullsAndCowsExceptions bullsAndCowsExceptions) {
+        } catch (BullsAndCowsGame.BullsAndCowsException bullsAndCowsExceptions) {
             bullsAndCowsExceptions.printStackTrace();
         }
     }
