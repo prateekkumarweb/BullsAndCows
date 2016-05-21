@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,15 +8,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="in.prateekkumar.android.bullsandcows.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="in.prateekkumar.android.bullsandcows.PlayActivity">
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="playWithComputer"
-        android:text="Play Against Computer" />
+        android:gravity="center"
+        android:text="Code"
+        android:textSize="32sp" />
 
     <ListView
         android:id="@+id/guess_list"
@@ -31,34 +30,20 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/guess_1"
+            android:id="@+id/bulls_editText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:hint="Bulls"
             android:inputType="number"
             android:maxLength="1" />
 
         <EditText
-            android:id="@+id/guess_2"
+            android:id="@+id/cows_editText"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:inputType="number"
-            android:maxLength="1" />
-
-        <EditText
-            android:id="@+id/guess_3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:inputType="number"
-            android:maxLength="1" />
-
-        <EditText
-            android:id="@+id/guess_4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:hint="Cows"
             android:inputType="number"
             android:maxLength="1" />
 
@@ -73,7 +58,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="reset"
-            android:text="Reset" />
+            android:onClick="replay"
+            android:text="Replay" />
     </LinearLayout>
+
 </LinearLayout>

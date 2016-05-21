@@ -1,6 +1,7 @@
 package in.prateekkumar.android.bullsandcows;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -124,7 +125,12 @@ public class MainActivity extends AppCompatActivity {
         onCreate(null);
     }
 
-    private class GuessAdapter extends ArrayAdapter<String> {
+    public void playWithComputer(View view) {
+        Intent intent = new Intent(this, PlayActivity.class);
+        startActivity(intent);
+    }
+
+    public static class GuessAdapter extends ArrayAdapter<String> {
 
         public GuessAdapter(Context context, ArrayList<String> objects) {
             super(context, 0, objects);
