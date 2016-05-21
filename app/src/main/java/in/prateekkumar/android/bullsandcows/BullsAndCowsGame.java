@@ -11,17 +11,19 @@ public class BullsAndCowsGame {
     public static final int PLAYER_GUESSES = 1;
 
     private int gameType;
+    private int[] mNumbers;
     private int[] mSecret;
     private List<int[]> mGuess;
     private boolean isGameOver;
 
-    public BullsAndCowsGame(int size, int type) {
+    public BullsAndCowsGame(int type) {
         gameType = type;
         mGuess = new ArrayList<>();
+        mNumbers = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
         isGameOver = false;
         if (type == COMPUTER_GUESSES) {
-            mSecret = new int[size];
-            for (int i = 0; i < size; i++) {
+            mSecret = new int[4];
+            for (int i = 0; i < 4; i++) {
                 mSecret[i] = random();
                 for (int j = 0; j < i; j++) {
                     if (mSecret[i] == mSecret[j] || mSecret[i] >= 10 || mSecret[i] < 0) {
@@ -30,17 +32,26 @@ public class BullsAndCowsGame {
                     }
                 }
             }
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < 4; i++) {
                 Log.v("Game", String.valueOf(mSecret[i]));
             }
         } else if (type == PLAYER_GUESSES) {
-            int[] initGuess = {random(), random(), random(), random(), -1, -1};
+            int[] initGuess = {0, 0, 0, 0, -1, -1};
+            for (int i = 0; i < 4; i++) {
+                initGuess[i] = random();
+                for (int j = 0; j < i; j++) {
+                    if (initGuess[i] == initGuess[j]) {
+                        i--;
+                        break;
+                    }
+                }
+            }
             mGuess.add(initGuess);
         }
     }
 
-    public BullsAndCowsGame(int size) {
-        this(size, COMPUTER_GUESSES);
+    public BullsAndCowsGame() {
+        this(COMPUTER_GUESSES);
     }
 
     public int[] guess(int ...guess) throws BullsAndCowsExceptions {
@@ -74,10 +85,17 @@ public class BullsAndCowsGame {
     }
 
     public String play(int bulls, int cows) throws BullsAndCowsExceptions {
+        if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4 || bulls + cows > 4) {
+            throw new BullsAndCowsExceptions("Inconsistant values of bulls and cows");
+        }
         if (gameType == PLAYER_GUESSES) {
             // TODO : Make the play function
+            int[] lastGuess = mGuess.get(mGuess.size() - 1);
+            lastGuess[4] = bulls;
+            lastGuess[5] = cows;
+            mGuess.set(mGuess.size() - 1, lastGuess);
+            return "Code";
         } else throw new BullsAndCowsExceptions("This method cannot be executed.");
-        return "Code";
     }
 
     private int random(int start, int end) {

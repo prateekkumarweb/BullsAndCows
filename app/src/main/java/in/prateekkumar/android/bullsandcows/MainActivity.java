@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }*/
 
-        bullsAndCowsGame = new BullsAndCowsGame(4);
+        bullsAndCowsGame = new BullsAndCowsGame();
         isGameOver = false;
         ArrayList<String> guesses = new ArrayList<>();
         guesses.add("CodeBC");

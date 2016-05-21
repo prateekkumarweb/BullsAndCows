@@ -22,7 +22,7 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        bullsAndCowsGame = new BullsAndCowsGame(4, BullsAndCowsGame.PLAYER_GUESSES);
+        bullsAndCowsGame = new BullsAndCowsGame(BullsAndCowsGame.PLAYER_GUESSES);
         ArrayList<String> guesses = new ArrayList<>();
         guesses.add("CodeBC");
         guessAdapter = new MainActivity.GuessAdapter(this, guesses);
