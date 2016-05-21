@@ -72,11 +72,10 @@ public class BullsAndCowsGame {
 
     public static class Player {
 
-        private ArrayList<Integer> possibleValues;
         private ArrayList<int[]> guessList;
 
         public Player() {
-            possibleValues = new ArrayList<Integer>();
+            guessList = new ArrayList<>();
             int[] guess = {-1, -1, -1, -1, -1, -1};
             for (int i = 0; i < 4; i++) {
                 guess[i] = random();
