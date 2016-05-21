@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Bulls and Cows</string>
     <string name="action_settings">Settings</string>
+    <string name="button_computer_plays">Play Against Computer</string>
+    <string name="editText_guess">x</string>
+    <string name="button_play">Go</string>
+    <string name="button_reset">Reset</string>
+    <string name="editText_bulls">Bulls</string>
+    <string name="editText_cows">Cows</string>
+    <string name="button_replay">Replay</string>
+    <string name="textView_code">Code</string>
 </resources>

@@ -72,10 +72,14 @@ public class BullsAndCowsGame {
 
     public static class Player {
 
+        private ArrayList<int[]> possibleValues;
         private ArrayList<int[]> guessList;
+        private boolean isGameOver;
 
         public Player() {
+            isGameOver = false;
             guessList = new ArrayList<>();
+            possibleValues = new ArrayList<>();
             int[] guess = {-1, -1, -1, -1, -1, -1};
             for (int i = 0; i < 4; i++) {
                 guess[i] = random();
@@ -94,7 +98,7 @@ public class BullsAndCowsGame {
                         if (i1 == i3 || i2 == i3) continue;
                         for (int i4 = 0; i4 < 10; i4++) {
                             if (i1 == i4 || i2 == i4 || i3 == i4) continue;
-                            guessList.add(new int[]{i1, i2, i3, i4});
+                            possibleValues.add(new int[]{i1, i2, i3, i4});
                         }
                     }
                 }
@@ -107,20 +111,26 @@ public class BullsAndCowsGame {
         }
 
         public String play(int bulls, int cows) throws BullsAndCowsException {
-            if (bulls < 0 || bulls > 4 || cows < 0 || cows > 4 || bulls + cows > 4) {
+            if (isGameOver) return "DONE";
+            if (bulls >= 0 || bulls <= 4 || cows >= 0 || cows <= 4 || bulls + cows <= 4) {
                 int[] guess = guessList.get(guessList.size() - 1);
                 guess[4] = bulls;
                 guess[5] = cows;
                 guessList.set(guessList.size() - 1, guess);
-                for (int i = 0; i < guessList.size(); i++) {
-                    int[] bc = computeBC(Arrays.copyOfRange(guess, 0, 4), Arrays.copyOfRange(guessList.get(i), 0, 4));
+                for (int i = 0; i < possibleValues.size(); i++) {
+                    int[] bc = computeBC(Arrays.copyOfRange(guess, 0, 4), Arrays.copyOfRange(possibleValues.get(i), 0, 4));
                     if (bc[0] != bulls || bc[1] != cows) {
-                        guessList.remove(i);
+                        possibleValues.remove(i);
                         i--;
                     }
                 }
-                guessList.add(guess);
-                if (bulls == 4) return "DONE";
+                if (possibleValues.size() == 0) return "ERROR";
+                guess = possibleValues.get(random(0, possibleValues.size()));
+                guessList.add(new int[]{guess[0], guess[1], guess[2], guess[3], -1, -1});
+                if (bulls == 4) {
+                    isGameOver = true;
+                    return "DONE";
+                }
                 return String.valueOf(guess[0]) + String.valueOf(guess[1]) + String.valueOf(guess[2]) + String.valueOf(guess[3]);
             } else throw new BullsAndCowsException("Inconsistent number of bulls or cows");
         }

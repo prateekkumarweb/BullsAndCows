@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Code"
+        android:text="@string/textView_code"
         android:textSize="32sp" />
 
     <ListView
@@ -34,7 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="Bulls"
+            android:hint="@string/editText_bulls"
             android:inputType="number"
             android:maxLength="1" />
 
@@ -43,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="Cows"
+            android:hint="@string/editText_cows"
             android:inputType="number"
             android:maxLength="1" />
 
@@ -52,14 +52,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="play"
-            android:text="Go" />
+            android:text="@string/button_play" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="replay"
-            android:text="Replay" />
+            android:text="@string/button_replay" />
     </LinearLayout>
 
 </LinearLayout>

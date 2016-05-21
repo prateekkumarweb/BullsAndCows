@@ -64,6 +64,12 @@ public class PlayActivity extends AppCompatActivity {
             if (res.equals("DONE")) {
                 bullsView.setFocusable(false);
                 cowsView.setFocusable(false);
+                Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show();
+            }
+            if (res.equals("ERROR")) {
+                bullsView.setFocusable(false);
+                cowsView.setFocusable(false);
+                Toast.makeText(this, "Error in your data", Toast.LENGTH_SHORT).show();
             }
         } catch (BullsAndCowsGame.BullsAndCowsException e) {
             e.printStackTrace();
