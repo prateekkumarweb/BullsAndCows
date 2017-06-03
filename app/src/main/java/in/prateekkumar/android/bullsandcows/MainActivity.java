@@ -3,6 +3,7 @@ package in.prateekkumar.android.bullsandcows;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -130,24 +131,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public static class GuessAdapter extends ArrayAdapter<String> {
+    static class GuessAdapter extends ArrayAdapter<String> {
 
-        public GuessAdapter(Context context, ArrayList<String> objects) {
+        GuessAdapter(Context context, ArrayList<String> objects) {
             super(context, 0, objects);
         }
 
+        @NonNull
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
             String s = getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.guess_list_item, parent, false);
             }
-            ((TextView) convertView.findViewById(R.id.g1)).setText(String.valueOf(s.charAt(0)));
-            ((TextView) convertView.findViewById(R.id.g2)).setText(String.valueOf(s.charAt(1)));
-            ((TextView) convertView.findViewById(R.id.g3)).setText(String.valueOf(s.charAt(2)));
-            ((TextView) convertView.findViewById(R.id.g4)).setText(String.valueOf(s.charAt(3)));
-            ((TextView) convertView.findViewById(R.id.b)).setText(String.valueOf(s.charAt(4)));
-            ((TextView) convertView.findViewById(R.id.c)).setText(String.valueOf(s.charAt(5)));
+            ((TextView) convertView.findViewById(R.id.g1)).setText(String.valueOf(s != null ? s.charAt(0) : 0));
+            ((TextView) convertView.findViewById(R.id.g2)).setText(String.valueOf(s != null ? s.charAt(1) : 0));
+            ((TextView) convertView.findViewById(R.id.g3)).setText(String.valueOf(s != null ? s.charAt(2) : 0));
+            ((TextView) convertView.findViewById(R.id.g4)).setText(String.valueOf(s != null ? s.charAt(3) : 0));
+            ((TextView) convertView.findViewById(R.id.b)).setText(String.valueOf(s != null ? s.charAt(4) : 0));
+            ((TextView) convertView.findViewById(R.id.c)).setText(String.valueOf(s != null ? s.charAt(5) : 0));
             return convertView;
         }
     }

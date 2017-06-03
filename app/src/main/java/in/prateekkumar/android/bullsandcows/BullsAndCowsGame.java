@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BullsAndCowsGame {
+class BullsAndCowsGame {
 
     private int[] mSecret;
     private List<int[]> mGuess;
     private boolean isGameOver;
 
-    public BullsAndCowsGame() {
+    BullsAndCowsGame() {
         mGuess = new ArrayList<>();
         mSecret = new int[]{-1, -1, -1, -1};
         isGameOver = false;
@@ -51,7 +51,7 @@ public class BullsAndCowsGame {
         return random(0, 10);
     }
 
-    public int[] guess(int... guess) throws BullsAndCowsException {
+    int[] guess(int... guess) throws BullsAndCowsException {
         if (isGameOver) throw new BullsAndCowsException("Game already Over");
         else if (mGuess.add(guess)) {
             int[] bullsAndCows = computeBC(guess);
@@ -64,19 +64,19 @@ public class BullsAndCowsGame {
         return computeBC(guess, mSecret);
     }
 
-    public static class BullsAndCowsException extends Exception {
-        public BullsAndCowsException(String detailMessage) {
+    static class BullsAndCowsException extends Exception {
+        BullsAndCowsException(String detailMessage) {
             super(new Throwable(detailMessage));
         }
     }
 
-    public static class Player {
+    static class Player {
 
         private ArrayList<int[]> possibleValues;
         private ArrayList<int[]> guessList;
         private boolean isGameOver;
 
-        public Player() {
+        Player() {
             isGameOver = false;
             guessList = new ArrayList<>();
             possibleValues = new ArrayList<>();
@@ -105,12 +105,12 @@ public class BullsAndCowsGame {
             }
         }
 
-        public String getGuessAt(int i) {
+        String getGuessAt(int i) {
             int[] guess = guessList.get(i);
             return String.valueOf(guess[0]) + String.valueOf(guess[1]) + String.valueOf(guess[2]) + String.valueOf(guess[3]);
         }
 
-        public String play(int bulls, int cows) throws BullsAndCowsException {
+        String play(int bulls, int cows) throws BullsAndCowsException {
             if (isGameOver) return "DONE";
             if (bulls >= 0 || bulls <= 4 || cows >= 0 || cows <= 4 || bulls + cows <= 4) {
                 int[] guess = guessList.get(guessList.size() - 1);
